@@ -1,0 +1,23 @@
+POST http://localhost:3000/bank-accounts
+Content-Type: application/json
+
+{
+    "account_number": "1111-11"
+}
+
+###
+GET http://localhost:3000/bank-accounts
+
+
+###
+GET http://localhost:3000/bank-accounts/1111-11
+
+###
+POST http://localhost:3000/bank-accounts/transfer
+Content-Type: application/json
+
+{
+    "from": "2222-22",
+    "to": "1111-11",
+    "amount": 200
+}

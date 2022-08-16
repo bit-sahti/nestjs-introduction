@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpCode } from '@nestjs/common';
 import { BankAccountsService } from './bank-accounts.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
+import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
 
 @Controller('bank-accounts')
 export class BankAccountsController {
@@ -16,8 +17,14 @@ export class BankAccountsController {
     return this.bankAccountsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bankAccountsService.findOne(+id);
+  @Get(':account_number')
+  findOne(@Param('account_number') account_number: string) {
+    return this.bankAccountsService.findOne(account_number);
+  }
+
+  @Post('transfer')
+  @HttpCode(204)
+  transfer(@Body() transferBankAccountDto: TransferBankAccountDto) {
+    return this.bankAccountsService.transfer(transferBankAccountDto);
   }
 }
