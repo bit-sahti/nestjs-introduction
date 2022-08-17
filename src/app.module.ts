@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
-import { BankAccount } from './bank-accounts/entities/bank-account.entity';
+import { BankAccountSchema } from './@core/infra/db/bank-account.entity';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { BankAccount } from './bank-accounts/entities/bank-account.entity';
       database: __dirname + '/db.sqlite',
       synchronize: true,
       logging: true,
-      entities: [BankAccount],
+      entities: [BankAccountSchema],
     }),
     BankAccountsModule,
   ],
