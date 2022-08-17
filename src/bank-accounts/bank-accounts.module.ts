@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { BankAccountsController } from './bank-accounts.controller';
-import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
-import { BankAccountSchema } from '../@core/infra/db/bank-account.entity';
-import { BankAccountTypeOrmRepository } from 'src/@core/infra/db/bank-account-typeorm.repository';
 import { DataSource } from 'typeorm';
-import { BankAccountService } from 'src/@core/domain/bank-account.service';
-import { BankAccountRepository } from 'src/@core/domain/bank-account.repository';
+import { Module } from '@nestjs/common';
+import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
+import { BankAccountsController } from './bank-accounts.controller';
+import { BankAccountService } from '../@core/domain/bank-account.service';
+import { BankAccountSchema } from '../@core/infra/db/bank-account.entity';
+import { BankAccountRepository } from '../@core/domain/bank-account.repository';
+import { BankAccountTypeOrmRepository } from '../@core/infra/db/bank-account-typeorm.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankAccountSchema])],

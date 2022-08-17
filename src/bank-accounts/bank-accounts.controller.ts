@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, HttpCode } from '@nestjs/common';
-import { BankAccountService } from 'src/@core/domain/bank-account.service';
+import { BankAccountService } from '../@core/domain/bank-account.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
 
