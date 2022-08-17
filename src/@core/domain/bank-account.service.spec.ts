@@ -24,6 +24,10 @@ describe('BankAccountTypeOrmService Integration Test', () => {
     bankAccountService = new BankAccountService(repository, dataSource);
   });
 
+  afterEach(() => {
+    dataSource.destroy();
+  });
+
   it('should create a new bank account in the database', async () => {
     await bankAccountService.create('1111-11');
 
@@ -36,6 +40,24 @@ describe('BankAccountTypeOrmService Integration Test', () => {
       balance: 0,
       account_number: '1111-11',
     });
+  });
+
+  it('should list all accounts', async () => {
+    const account = await bankAccountService.create('1111-11');
+
+    const accounts = await bankAccountService.list();
+
+    expect(accounts).toStrictEqual([account]);
+  });
+
+  it('should get one account by account number', async () => {
+    const account = await bankAccountService.create('1111-11');
+
+    const foundAccount = await bankAccountService.findByAccountNumber(
+      account.account_number,
+    );
+
+    expect(foundAccount).toStrictEqual(account);
   });
 
   it('should transfer a given amount between accounts', async () => {
@@ -53,5 +75,19 @@ describe('BankAccountTypeOrmService Integration Test', () => {
 
     expect(sourceAccount.balance).toEqual(-70);
     expect(targetAccount.balance).toEqual(70);
+  });
+
+  it('should rollback changes if something goes wrong', async () => {
+    const source = await bankAccountService.create('1111-11');
+
+    await expect(
+      bankAccountService.transfer('1111-11', '2222-22', 70),
+    ).rejects.toThrow();
+
+    const sourceAccount = await repository.findByAccountNumber(
+      source.account_number,
+    );
+
+    expect(sourceAccount.balance).toEqual(0);
   });
 });

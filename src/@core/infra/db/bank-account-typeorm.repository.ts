@@ -27,4 +27,13 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
 
     return new BankAccount(data.balance, data.account_number, data.id);
   }
+
+  async findAll(): Promise<BankAccount[]> {
+    const data = await this.ormRepo.find();
+
+    return data.map(
+      ({ id, balance, account_number }) =>
+        new BankAccount(balance, account_number, id),
+    );
+  }
 }

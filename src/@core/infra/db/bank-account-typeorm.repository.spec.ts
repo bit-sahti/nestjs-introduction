@@ -22,6 +22,10 @@ describe('BankAccountTypeOrmRepository Integration Test', () => {
     repository = new BankAccountTypeOrmRepository(ormRepo);
   });
 
+  afterEach(() => {
+    dataSource.destroy();
+  });
+
   it('should insert a new bank account into the database', async () => {
     const bankAccount = new BankAccount(100, '1111-11');
 
@@ -62,5 +66,17 @@ describe('BankAccountTypeOrmRepository Integration Test', () => {
     await expect(async () =>
       repository.findByAccountNumber('1111-11'),
     ).rejects.toThrowError('Account not found');
+  });
+
+  it('should find all accounts', async () => {
+    const bankAccount1 = new BankAccount(100, '1111-11');
+    const bankAccount2 = new BankAccount(100, '2222-22');
+
+    await ormRepo.insert(bankAccount1);
+    await ormRepo.insert(bankAccount2);
+
+    const accounts = await repository.findAll();
+
+    expect(accounts).toStrictEqual([bankAccount1, bankAccount2]);
   });
 });

@@ -17,6 +17,14 @@ export class BankAccountService {
     return bankAccount;
   }
 
+  async list(): Promise<BankAccount[]> {
+    return this.bankAccountRepo.findAll();
+  }
+
+  async findByAccountNumber(account_number: string): Promise<BankAccount> {
+    return this.bankAccountRepo.findByAccountNumber(account_number);
+  }
+
   async transfer(
     sourceAccountNumber: string,
     targetAccountNumber: string,
